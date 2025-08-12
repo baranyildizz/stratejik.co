@@ -1,0 +1,140 @@
+/* CSS Değişkenleri: Tasarımı tek bir yerden yönetmek için */
+:root {
+    --primary-text-color: #ffffff;
+    --background-color: #000000;
+    --cta-background-color: rgba(255, 255, 255, 0.1);
+    --cta-hover-background-color: rgba(255, 255, 255, 0.2);
+    --text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Genel Sayfa Ayarları */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    overflow: hidden;
+}
+
+/* Arka Plan Video Konteyneri */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* İçeriğin arkasında kalması için */
+    opacity: 0;
+    transition: opacity 1.5s ease-in;
+}
+
+.video-background.loaded {
+    opacity: 1;
+}
+
+#bgVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Videonun ekranı kaplamasını sağlar */
+}
+
+/* Üst Kısım (Logo) */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 250px;
+    filter: invert(100%);
+}
+
+/* Ana İçerik */
+.main-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.text-container {
+    max-width: 600px;
+    /* Metin okunabilirliğini artırmak için gölge */
+    text-shadow: var(--text-shadow);
+}
+
+.main-headline {
+    font-size: 3.5em;
+    margin-bottom: 0.2em;
+    line-height: 1.1;
+}
+
+.sub-headline {
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 90%;
+}
+
+/* Eylem Çağrısı Butonu */
+.cta-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.8rem;
+    border: 1px solid var(--primary-text-color);
+    border-radius: 50px;
+    background-color: var(--cta-background-color);
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    backdrop-filter: blur(5px); /* Şık bir "cam" efekti */
+}
+
+.cta-button:hover {
+    background-color: var(--cta-hover-background-color);
+    transform: translateY(-2px);
+}
+
+/* Mobil Cihazlar için Media Query */
+@media (max-width: 768px) {
+    .header {
+        display: flex;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+    
+    .logo {
+        width: 180px;
+    }
+
+    .main-content {
+        justify-content: center;
+        align-items: flex-end; /* İçeriği aşağıya yasla */
+        text-align: center;
+        padding: 1.5rem 1.5rem 5rem 1.5rem; /* Altta boşluk bırak */
+    }
+
+    .text-container {
+        background-color: rgba(0,0,0,0.4);
+        padding: 1.5rem;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        text-shadow: none; /* Arka plan varken gölgeye gerek yok */
+    }
+
+    .main-headline {
+        font-size: 2em;
+    }
+
+    .sub-headline {
+        font-size: 1em;
+        max-width: 100%;
+    }
+}
