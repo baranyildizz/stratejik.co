@@ -1,0 +1,2 @@
+# stratejik.co
+website
