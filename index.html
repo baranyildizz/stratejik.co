@@ -9,29 +9,252 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffffff;
+            overflow: hidden;
+            position: relative;
         }
-        
+
         .logo-container {
-            width: 80%;
-            max-width: 400px;
-            padding: 20px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            width: 400px;
+            padding: 10px;
         }
 
         .logo {
             width: 100%;
             height: auto;
             object-fit: contain;
-            max-height: 80vh;
+            filter: invert(100%);
+        }
+
+        .text-container {
+            position: fixed;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            z-index: 2;
+            max-width: 1200px;
+            padding: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 4em;
+            line-height: 1.0;
+        }
+
+        .slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .nav-button {
+            position: fixed;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 3;
+            touch-action: manipulation;
+        }
+
+        .nav-button:focus {
+            outline: none;
+        }
+
+        .nav-button.prev {
+            left: 0;
+        }
+
+        .nav-button.next {
+            right: 0;
+        }
+
+        .nav-button:hover {
+            background: rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
+    <div class="slider" id="backgroundSlider">
+        <!-- Slides will be added here by JavaScript -->
+    </div>
     <div class="logo-container">
         <img src="stratejik.svg" alt="Stratejik Logo" class="logo">
     </div>
+    <div class="text-container">
+        Mimarlık ve gayrimenkul geliştiriciliğini, projenin her aşamasında stratejik kararlarla birleştirerek, inşaat sektöründe katma değer, optimizasyon ve inovasyon üretiyoruz.
+    </div>
+    <button class="nav-button prev" id="prevButton"></button>
+    <button class="nav-button next" id="nextButton"></button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Resim dosyalarının bulunduğu klasör
+            const imageFolder = 'imgs/';
+            
+            // Resim dosyalarının listesi
+            const images = [
+                '1.jpg',
+                '2.jpg',
+                '3.jpg',
+                '4.jpg',
+                '5.jpg',
+                '6.jpg',
+                '7.jpg',
+                '8.jpg',
+                '9.jpg',
+                '10.jpg'
+            ];
+
+            const slider = document.getElementById('backgroundSlider');
+            let currentSlide = 0;
+            let autoSlideInterval;
+            let startX = 0;
+            let currentX = 0;
+            let isDragging = false;
+            
+            // Slaytları oluştur
+            images.forEach((image, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide' + (index === 0 ? ' active' : '');
+                slide.style.backgroundImage = `url(${imageFolder}${image})`;
+                slider.appendChild(slide);
+            });
+
+            const slides = document.querySelectorAll('.slide');
+
+            // Slayt değiştirme fonksiyonları
+            function showSlide(index) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (index + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                resetAutoSlide();
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            // Otomatik geçiş zamanlayıcısını sıfırla
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+
+            // Navigasyon butonları
+            document.getElementById('nextButton').addEventListener('click', nextSlide);
+            document.getElementById('prevButton').addEventListener('click', prevSlide);
+
+            // Mouse olayları
+            function handleMouseDown(e) {
+                isDragging = true;
+                startX = e.clientX;
+                slider.style.cursor = 'grabbing';
+            }
+
+            function handleMouseMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                currentX = e.clientX;
+            }
+
+            function handleMouseUp(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                slider.style.cursor = 'grab';
+                
+                const diff = startX - currentX;
+                const threshold = 50; // minimum sürükleme mesafesi
+
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                }
+            }
+
+            // Dokunmatik olaylar
+            function handleTouchStart(e) {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+            }
+
+            function handleTouchMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                currentX = e.touches[0].clientX;
+            }
+
+            function handleTouchEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+
+                const diff = startX - currentX;
+                const threshold = 50;
+
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                }
+            }
+
+            // Event Listeners
+            slider.style.cursor = 'grab';
+            slider.addEventListener('mousedown', handleMouseDown);
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+            document.addEventListener('mouseleave', handleMouseUp);
+
+            slider.addEventListener('touchstart', handleTouchStart, { passive: false });
+            slider.addEventListener('touchmove', handleTouchMove, { passive: false });
+            slider.addEventListener('touchend', handleTouchEnd);
+            slider.addEventListener('touchcancel', handleTouchEnd);
+
+            // Klavye kontrolleri
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+
+            // Başlangıçta otomatik geçişi başlat
+            resetAutoSlide();
+        });
+    </script>
 </body>
 </html>
