@@ -43,7 +43,7 @@
             line-height: 1.0;
         }
 
-        .slider {
+        .slider, #backgroundSlider {
             position: fixed;
             top: 0;
             left: 0;
@@ -52,67 +52,16 @@
             z-index: 1;
             overflow: hidden;
         }
-        .slides-track {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 1s cubic-bezier(.77,0,.18,1);
-            overflow: visible;
-            will-change: transform;
-        }
-        .slide {
-            flex: 0 0 100vw;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            opacity: 1;
-            transition: filter 4s, transform 3s;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(20px);
-            transform: scale(2);
-            background-color: #000;
-            z-index: 1;
-        }
 
-        .slide.loaded {
-            filter: blur(0);
-            transform: scale(1);
-            z-index: 2;
-        }
-        .slide:not(.loaded) {
-            filter: blur(20px);
-            transform: scale(1.05);
-            z-index: 1;
-        }
-
-        .nav-button {
+        video#bgVideo {
             position: fixed;
             top: 0;
-            width: 50px;
-            height: 100%;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 3;
-            touch-action: manipulation;
-        }
-
-        .nav-button:focus {
-            outline: none;
-        }
-
-        .nav-button.prev {
             left: 0;
-        }
-
-        .nav-button.next {
-            right: 0;
-        }
-
-        .nav-button:hover {
-            background: rgba(0, 0, 0, 0.1);
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 1;
+            background: #000;
         }
 
         @media (max-width: 800px) {
@@ -159,192 +108,29 @@
 </head>
 <body>
     <div class="slider" id="backgroundSlider">
-        <div class="slides-track" id="slidesTrack">
-            <!-- Slides will be added here by JavaScript -->
-        </div>
+        <video id="bgVideoThumb" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:1;filter:blur(20px);transition:opacity 4s,filter 4s,transform 4s;opacity:1;background:#000;transform:scale(1.1);"></video>
+        <video id="bgVideo" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:2;filter:blur(20px);transition:filter 4s,transform 4s,opacity 1s;opacity:0;background:#000;transform:scale(1.1);" preload="auto"></video>
     </div>
-    <div class="logo-container">
+    <div class="logo-container">s
         <img src="stratejik.svg" alt="Stratejik Logo" class="logo">
     </div>
     <div class="text-container">
         Mimarlık ve gayrimenkul geliştiriciliğini, projenin her aşamasında stratejik kararlarla birleştirerek, inşaat sektöründe katma değer, optimizasyon ve inovasyon üretiyoruz.
     </div>
-    <button class="nav-button prev" id="prevButton"></button>
-    <button class="nav-button next" id="nextButton"></button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Resim dosyalarının bulunduğu klasör
-            const imageFolder = 'imgs/';
-            
-            // Resim dosyalarının listesi
-            const images = [
-                '1.jpg',
-                '2.jpg',
-                '3.jpg',
-                '4.jpg',
-                '5.jpg',
-                '6.jpg',
-                '7.jpg',
-                '8.jpg',
-                '9.jpg',
-                '10.jpg'
-            ];
-
-            const slider = document.getElementById('backgroundSlider');
-            const slidesTrack = document.getElementById('slidesTrack');
-            let currentSlide = 0;
-            let autoSlideInterval;
-            let startX = 0;
-            let currentX = 0;
-            let isDragging = false;
-            
-            // Slaytları oluştur
-            images.forEach((image, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'slide';
-                
-                // Resmi lazy load ile yükle
-                const img = new Image();
-                img.onload = function() {
-                    slide.style.backgroundImage = `url(${this.src})`;
-                    setTimeout(() => {
-                        slide.classList.add('loaded');
-                    }, 100);
-                };
-                
-                // Önce düşük çözünürlüklü placeholder göster
-                const placeholder = new Image();
-                placeholder.onload = function() {
-                    slide.style.backgroundImage = `url(${this.src})`;
-                    // Asıl resmi yükle
-                    img.src = `${imageFolder}${image}`;
-                };
-                
-                // Placeholder'ı yükle (10px genişliğinde küçük versiyon)
-                placeholder.src = `${imageFolder}thumbnails/${image}`;
-                
-                slidesTrack.appendChild(slide);
-            });
-
-            const slides = document.querySelectorAll('.slide');
-
-            // Slayt değiştirme fonksiyonları
-            function updateSliderPosition() {
-                slidesTrack.style.transform = `translateX(-${currentSlide * 100}vw)`;
-            }
-
-            function showSlide(index) {
-                slides[currentSlide].style.zIndex = 1;
-                currentSlide = (index + slides.length) % slides.length;
-                slides[currentSlide].style.zIndex = 3;
-                updateSliderPosition();
-                resetAutoSlide();
-            }
-
-            // İlk pozisyonu ayarla
-            slides[currentSlide].style.zIndex = 3;
-            updateSliderPosition();
-
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
-
-            function prevSlide() {
-                showSlide(currentSlide - 1);
-            }
-
-            // Otomatik geçiş zamanlayıcısını sıfırla
-            function resetAutoSlide() {
-                clearInterval(autoSlideInterval);
-                autoSlideInterval = setInterval(nextSlide, 8000);
-            }
-
-            // Navigasyon butonları
-            document.getElementById('nextButton').addEventListener('click', nextSlide);
-            document.getElementById('prevButton').addEventListener('click', prevSlide);
-
-            // Mouse olayları
-            function handleMouseDown(e) {
-                isDragging = true;
-                startX = e.clientX;
-                slider.style.cursor = 'grabbing';
-            }
-
-            function handleMouseMove(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                currentX = e.clientX;
-            }
-
-            function handleMouseUp(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                slider.style.cursor = 'grab';
-                
-                const diff = startX - currentX;
-                const threshold = 50; // minimum sürükleme mesafesi
-
-                if (Math.abs(diff) > threshold) {
-                    if (diff > 0) {
-                        nextSlide();
-                    } else {
-                        prevSlide();
-                    }
-                }
-            }
-
-            // Dokunmatik olaylar
-            function handleTouchStart(e) {
-                isDragging = true;
-                startX = e.touches[0].clientX;
-            }
-
-            function handleTouchMove(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                currentX = e.touches[0].clientX;
-            }
-
-            function handleTouchEnd() {
-                if (!isDragging) return;
-                isDragging = false;
-
-                const diff = startX - currentX;
-                const threshold = 50;
-
-                if (Math.abs(diff) > threshold) {
-                    if (diff > 0) {
-                        nextSlide();
-                    } else {
-                        prevSlide();
-                    }
-                }
-            }
-
-            // Event Listeners
-            slider.style.cursor = 'grab';
-            slider.addEventListener('mousedown', handleMouseDown);
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-            document.addEventListener('mouseleave', handleMouseUp);
-
-            slider.addEventListener('touchstart', handleTouchStart, { passive: false });
-            slider.addEventListener('touchmove', handleTouchMove, { passive: false });
-            slider.addEventListener('touchend', handleTouchEnd);
-            slider.addEventListener('touchcancel', handleTouchEnd);
-
-            // Klavye kontrolleri
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowRight') {
-                    nextSlide();
-                } else if (e.key === 'ArrowLeft') {
-                    prevSlide();
-                }
-            });
-
-            // Başlangıçta otomatik geçişi başlat
-            resetAutoSlide();
+            const thumb = document.getElementById('bgVideoThumb');
+            const video = document.getElementById('bgVideo');
+            thumb.src = 'imgs/thumbnails/sea.mp4';
+            video.src = 'imgs/sea.mp4';
+            video.oncanplay = function() {
+                video.style.opacity = '1';
+                video.style.filter = 'blur(0)';
+                video.style.transform = 'scale(1)';
+                thumb.style.opacity = '0';
+                thumb.style.transform = 'scale(1)';
+            };
         });
     </script>
 </body>
