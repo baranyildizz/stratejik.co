@@ -1,138 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stratejik</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stratejik</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+    .logo-container {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 6;
+        width: 400px;
+        padding: 10px;
+    }
+    .logo {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        filter: invert(100%);
+    }
+    .text-container {
+        position: fixed;
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%);
+        z-index: 6;
+        max-width: 100%;
+        padding: 20px;
+        color: white;
+        text-shadow: none;
+        font-size: 3em;
+        line-height: 1.0;
+    }
+    .slider, #backgroundSlider {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+        overflow: hidden;
+    }
+    video#bgVideo, video#bgVideoThumb {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        background: #000;
+    }
+    #bgVideoThumb {
+        z-index: 1;
+        filter: blur(20px);
+        transition: opacity 4s, filter 4s, transform 4s;
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    #bgVideo {
+        z-index: 2;
+        filter: blur(20px);
+        transition: filter 4s, transform 4s, opacity 1s;
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    @media (max-width: 480px) {
         .logo-container {
-            position: fixed;
-            top: 20px;
-            left: 20px;
+            position: static;
+            width: 60vw;
+            max-width: 90vw;
+            margin: 30px auto 0 auto;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 6;
-            width: 400px;
-            padding: 10px;
+            padding: 0;
         }
-
         .logo {
             width: 100%;
-            height: auto;
-            object-fit: contain;
-            filter: invert(100%);
-        }
-
-        .text-container {
-            position: fixed;
-            top: 50%;
-            left: 40px;
-            transform: translateY(-50%);
+            max-width: 250px;
+            margin: 0 auto;
+            display: block;
             z-index: 6;
-            max-width: 100%;;
-            padding: 20px;
-            color: white;
-            text-shadow: none;
-            font-size: 3em;
-            line-height: 1.0;
         }
-
-        .slider, #backgroundSlider {
-            position: fixed;
-            top: 0;
+        .text-container {
+            position: static;
+            transform: none;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        video#bgVideo {
-            position: fixed;
             top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 1;
-            background: #000;
+            margin: 20px auto 0 auto;
+            max-width: 90vw;
+            padding: 10px 10px 0 10px;
+            font-size: 1.2em;
+            text-align: center;
+            z-index: 6;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            line-height: 1.4;
+            margin-bottom: 30px;
+            word-break: break-word;
         }
-
-        @media (max-width: 480px) {
-            .logo-container {
-                position: static;
-                width: 60vw;
-                max-width: 90vw;
-                margin: 30px auto 0 auto;
-                left: 0;
-                top: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 6;
-                padding: 0;
-            }
-            .logo {
-                width: 100%;
-                max-width: 250px;
-                margin: 0 auto;
-                display: block;
-                z-index: 6;
-            }
-            .text-container {
-                position: static;
-                transform: none;
-                left: 0;
-                top: 0;
-                margin: 20px auto 0 auto;
-                max-width: 90vw;
-                padding: 10px 10px 0 10px;
-                font-size: 1.2em;
-                text-align: center;
-                z-index: 6;
-                color: #fff;
-                background: rgba(0,0,0,0.5);
-                border-radius: 12px;
-                box-shadow: 0 2px 16px rgba(0,0,0,0.2);
-                line-height: 1.4;
-                margin-bottom: 30px;
-                word-break: break-word;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <div class="slider" id="backgroundSlider">
-        <video id="bgVideoThumb" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:1;filter:blur(20px);transition:opacity 4s,filter 4s,transform 4s;opacity:1;background:#000;transform:scale(1.1);"></video>
-        <video id="bgVideo" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:2;filter:blur(20px);transition:filter 4s,transform 4s,opacity 1s;opacity:0;background:#000;transform:scale(1.1);" preload="auto"></video>
-    </div>
-    <div class="logo-container">s
-        <img src="stratejik.svg" alt="Stratejik Logo" class="logo">
-    </div>
-    <div class="text-container">
-        Mimarlık ve gayrimenkul geliştiriciliğini, projenin her aşamasında stratejik kararlarla birleştirerek, inşaat sektöründe katma değer, optimizasyon ve inovasyon üretiyoruz.
-    </div>
+<div class="slider" id="backgroundSlider">
+    <video id="bgVideoThumb" autoplay loop muted playsinline src="imgs/thumbnails/sea.mp4"></video>
+    <video id="bgVideo" autoplay loop muted playsinline preload="auto" src="imgs/sea.mp4"></video>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const thumb = document.getElementById('bgVideoThumb');
-            const video = document.getElementById('bgVideo');
-            thumb.src = 'imgs/thumbnails/sea.mp4';
-            video.src = 'imgs/sea.mp4';
-            video.oncanplay = function() {
-                video.style.opacity = '1';
-                video.style.filter = 'blur(0)';
-                video.style.transform = 'scale(1)';
-                thumb.style.opacity = '0';
-                thumb.style.transform = 'scale(1)';
-            };
-        });
-    </script>
+<div class="logo-container">
+    <img src="stratejik.svg" alt="Stratejik Logo" class="logo">
+</div>
+<div class="text-container">
+    Mimarlık ve gayrimenkul geliştiriciliğini, projenin her aşamasında stratejik kararlarla birleştirerek, inşaat sektöründe katma değer, optimizasyon ve inovasyon üretiyoruz.
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const thumb = document.getElementById('bgVideoThumb');
+    const video = document.getElementById('bgVideo');
+
+    video.oncanplay = function() {
+        video.style.opacity = '1';
+        video.style.filter = 'blur(0)';
+        video.style.transform = 'scale(1)';
+        thumb.style.opacity = '0';
+        thumb.style.transform = 'scale(1)';
+    };
+
+    // Mobil fallback: autoplay çalışmazsa dokununca başlat
+    function tryPlay() {
+        video.play().catch(()=>{});
+        thumb.play().catch(()=>{});
+        document.removeEventListener('touchstart', tryPlay);
+        document.removeEventListener('click', tryPlay);
+    }
+    document.addEventListener('touchstart', tryPlay);
+    document.addEventListener('click', tryPlay);
+});
+</script>
 </body>
 </html>
