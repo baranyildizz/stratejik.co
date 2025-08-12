@@ -57,6 +57,8 @@
             width: 100%;
             height: 100%;
             transition: transform 1s cubic-bezier(.77,0,.18,1);
+            overflow: visible;
+            will-change: transform;
         }
         .slide {
             flex: 0 0 100vw;
@@ -64,17 +66,25 @@
             height: 100vh;
             position: relative;
             opacity: 1;
-            transition: filter 2s;
+            transition: filter 4s, transform 3s;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             filter: blur(20px);
-            transform: none;
+            transform: scale(2);
             background-color: #000;
+            z-index: 1;
         }
 
         .slide.loaded {
             filter: blur(0);
+            transform: scale(1);
+            z-index: 2;
+        }
+        .slide:not(.loaded) {
+            filter: blur(20px);
+            transform: scale(1.05);
+            z-index: 1;
         }
 
         .nav-button {
@@ -225,10 +235,16 @@
             }
 
             function showSlide(index) {
+                slides[currentSlide].style.zIndex = 1;
                 currentSlide = (index + slides.length) % slides.length;
+                slides[currentSlide].style.zIndex = 3;
                 updateSliderPosition();
                 resetAutoSlide();
             }
+
+            // İlk pozisyonu ayarla
+            slides[currentSlide].style.zIndex = 3;
+            updateSliderPosition();
 
             function nextSlide() {
                 showSlide(currentSlide + 1);
