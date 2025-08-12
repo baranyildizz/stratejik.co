@@ -3,22 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>Stratejik | İnovatif Mimarlık ve Gayrimenkul Geliştirme</title>
     <meta name="description" content="Stratejik, mimarlık ve gayrimenkul geliştirme süreçlerini birleştirerek projelere katma değer, optimizasyon ve inovasyon katar. Antalya merkezli projeler.">
     
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS Değişkenleri: Tasarımı tek bir yerden yönetmek için */
+        :root {
+            --primary-text-color: #ffffff;
+            --background-color: #000000;
+            --cta-background-color: rgba(255, 255, 255, 0.1);
+            --cta-hover-background-color: rgba(255, 255, 255, 0.2);
+            --text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
 
-    <link rel="preload" href="videos/sea.webm" as="video" type="video/webm">
-    <link rel="preload" href="videos/sea.mp4" as="video" type="video/mp4">
+        /* Genel Sayfa Ayarları */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
+            overflow: hidden; /* Dikey kaydırmayı engeller */
+        }
+
+        /* Arka Plan Video Konteyneri */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: var(--background-color);
+        }
+
+        .video-element {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        #bgVideoThumb {
+            /* Başlangıçta bu görünür */
+            opacity: 1;
+            filter: blur(20px);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        #bgVideo {
+            /* Ana video başlangıçta gizli */
+            opacity: 0;
+        }
+        
+        /* Üst Kısım (Logo) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .logo {
+            width: 250px;
+            filter: invert(100%);
+        }
+
+        /* Ana İçerik */
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+
+        .text-container {
+            max-width: 600px;
+            text-shadow: var(--text-shadow);
+        }
+
+        .main-headline {
+            font-size: 3.5em;
+            margin-bottom: 0.2em;
+            line-height: 1.1;
+        }
+
+        .sub-headline {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 90%;
+        }
+
+        /* Eylem Çağrısı Butonu */
+        .cta-button {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.8rem;
+            border: 1px solid var(--primary-text-color);
+            border-radius: 50px;
+            background-color: var(--cta-background-color);
+            color: var(--primary-text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-button:hover {
+            background-color: var(--cta-hover-background-color);
+            transform: translateY(-2px);
+        }
+
+        /* Mobil Cihazlar için Media Query */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto; /* Mobilde içerik sığmazsa kaydırmaya izin ver */
+            }
+            .header {
+                position: static; /* Normal akışa döner */
+                display: flex;
+                justify-content: center;
+                padding: 2rem 1.5rem 1rem 1.5rem;
+            }
+            
+            .logo {
+                width: 180px;
+            }
+
+            .main-content {
+                display: block; /* Flex yapısını bozar, normal akışa döner */
+                height: auto;
+                text-align: center;
+                padding: 1rem 1.5rem 3rem 1.5rem;
+            }
+
+            .text-container {
+                background-color: rgba(0,0,0,0.4);
+                padding: 1.5rem;
+                border-radius: 12px;
+                backdrop-filter: blur(10px);
+                text-shadow: none;
+                margin: 0 auto;
+            }
+
+            .main-headline {
+                font-size: 2em;
+            }
+
+            .sub-headline {
+                font-size: 1em;
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
     <div class="video-background">
-        <video id="bgVideo" loop muted playsinline preload="metadata" poster="images/sea-poster.jpg">
+        <video id="bgVideoThumb" class="video-element" autoplay loop muted playsinline>
+            <source src="videos/sea-thumbnail.webm" type="video/webm">
+            <source src="videos/sea-thumbnail.mp4" type="video/mp4">
+        </video>
+        <video id="bgVideo" class="video-element" loop muted playsinline preload="auto">
             <source src="videos/sea.webm" type="video/webm">
             <source src="videos/sea.mp4" type="video/mp4">
-            Üzgünüz, tarayıcınız bu videoyu desteklemiyor.
         </video>
     </div>
 
@@ -36,6 +199,47 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbVideo = document.getElementById('bgVideoThumb');
+            const mainVideo = document.getElementById('bgVideo');
+
+            // Hata durumunda veya düşük güç modunda kullanıcı etkileşimiyle videoları başlatacak fonksiyon
+            function handlePlayError(error) {
+                console.warn("Otomatik oynatma engellendi. Kullanıcı etkileşimi bekleniyor.");
+                const startVideos = () => {
+                    // Kullanıcı tıkladığında her iki videoyu da oynatmayı dene
+                    thumbVideo.play().catch(err => console.error("Thumbnail etkileşim sonrası oynatılamadı:", err));
+                    mainVideo.play().catch(err => console.error("Ana video etkileşim sonrası oynatılamadı:", err));
+                };
+                // Dinleyicileri sadece bir kere çalışacak şekilde ekle
+                document.body.addEventListener('click', startVideos, { once: true });
+                document.body.addEventListener('touchstart', startVideos, { once: true });
+            }
+
+            // Sayfa yüklenir yüklenmez videoları oynatmayı dene
+            thumbVideo.play().catch(handlePlayError);
+            mainVideo.play().catch(handlePlayError);
+
+
+            // Ana video oynatılabilecek duruma geldiğinde (yeterince veri yüklendiğinde) geçişi yap
+            mainVideo.addEventListener('canplay', () => {
+                // Ana videoyu yavaşça görünür yap
+                mainVideo.style.opacity = '1';
+                // Eş zamanlı olarak thumbnail videoyu yavaşça gizle
+                thumbVideo.style.opacity = '0';
+            }, { once: true }); // Bu olay sadece bir kez çalışsın
+
+            // ÖNEMLİ: Ana video yüklenirken bir hata olursa ne olacak?
+            mainVideo.addEventListener('error', () => {
+                console.error("Ana video yüklenemedi. Bulanık thumbnail video gösterilmeye devam edecek.");
+                // Hata durumunda, geçişin hiç başlamadığından emin olmak için thumbnail'i görünür kıl
+                thumbVideo.style.opacity = '1';
+                // Ve ana videonun tamamen gizli kaldığından emin ol
+                mainVideo.style.opacity = '0';
+            });
+        });
+    </script>
+
 </body>
 </html>
