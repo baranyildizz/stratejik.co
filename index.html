@@ -70,9 +70,12 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 2rem;
+            padding: 4rem 4rem 2rem 6rem;
             box-sizing: border-box;
-            z-index: 10;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo {
@@ -86,7 +89,7 @@
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
-            padding: 2rem;
+            padding: 2rem 2rem 2rem 6rem; /* Sol padding'i artırdık */
             box-sizing: border-box;
             position: relative;
             z-index: 10;
@@ -95,24 +98,31 @@
         .text-container {
             max-width: 66%;
             text-shadow: var(--text-shadow);
+            height: 50vh; /* Ekran yüksekliğinin yarısı kadar sabit yükseklik */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* İçeriği yukarı dayar */
+            align-items: flex-start;
         }
 
         .main-headline {
             font-size: 2.5em;
-            margin-bottom: 0.2em;
+            margin: 0 0 0.2em 0; /* Üstten margin'i kaldırdık */
             line-height: 1.1;
+            min-height: 2.2em; /* İki satır yüksekliği */
         }
 
         .sub-headline {
             font-size: 2em;
             line-height: 1.6;
             max-width: 90%;
+            margin: 1em 0 1.5em 0; /* Alt margin'i sabit tutuyoruz */
+            min-height: 4.8em; /* Üç satır yüksekliği */
         }
 
         /* Eylem Çağrısı Butonu */
-        .cta-button {
+        .btn {
             display: inline-block;
-            margin-top: 1.5rem;
             padding: 0.8rem 1.8rem;
             border: 1px solid var(--primary-text-color);
             border-radius: 50px;
@@ -122,11 +132,23 @@
             font-weight: 500;
             transition: background-color 0.3s ease, transform 0.3s ease;
             backdrop-filter: blur(5px);
-        }
+            cursor: pointer;
+            position: relative;
+            z-index: 101;
+        
 
-        .cta-button:hover {
+        .btn:hover {
             background-color: var(--cta-hover-background-color);
             transform: translateY(-2px);
+        }
+
+        .cta-button {
+            margin-top: 4rem;
+        }
+
+        .lang-toggle {
+            padding: 0.5rem 1.2rem;
+            margin-left: 1rem;
         }
 
         /* Mobil Cihazlar için Media Query */
@@ -135,36 +157,73 @@
                 overflow-y: auto; /* Mobilde içerik sığmazsa kaydırmaya izin ver */
             }
             .header {
-                position: static; /* Normal akışa döner */
-                display: flex;
-                justify-content: center;
-                padding: 2rem 1.5rem 1rem 1.5rem;
+                position: fixed;
+                padding: 4rem 1rem 1rem 1rem;
+                width: 100%;
+                background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+                box-sizing: border-box;
+            }
+
+            /* EN butonu için özel konteyner */
+            .header::before {
+                content: '';
+                position: absolute;
+                right: 1.5rem;
+                top: 1rem;
+                width: auto;
+                height: auto;
             }
             
+            /* Logo konteyneri */
             .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
                 width: 180px;
             }
 
-            .main-content {
-                display: block; /* Flex yapısını bozar, normal akışa döner */
+            /* Dil değiştirme butonu */
+            .lang-toggle {
+                position: absolute;
+                right: 1.5rem;
+                top: 3rem;
+                padding: 0.4rem 1rem;
+                margin: 0;
+            }            .main-content {
+                display: block;
                 height: auto;
                 text-align: center;
-                padding: 1rem 1.5rem 3rem 1.5rem;
+                padding: 0 1.5rem 3rem 1.5rem;
+                margin-top: 120px; /* Logo ve header için yeterli boşluk */
             }
 
             .text-container {
-                padding: 1.5rem;
+                padding: 0;
                 text-shadow: none;
                 margin: 0 auto;
             }
 
             .main-headline {
+                padding-top: 2em;
                 font-size: 2em;
             }
 
             .sub-headline {
+                padding: 4em;
                 font-size: 1em;
                 max-width: 100%;
+            }
+
+            /* Mobilde iletişim butonunu ortala */
+            .cta-button {
+                margin-left: auto;
+                margin-right: auto;
+                display: table; /* inline-block yerine table kullanarak daha iyi ortalama */
+            }
+
+            /* Dil değiştirme butonunun mobil stili */
+            .lang-toggle {
+                padding: 0.4rem 1rem; /* Mobilde biraz daha küçük padding */
             }
         }
     </style>
@@ -184,20 +243,53 @@
 
     <header class="header">
         <img src="stratejik.svg" alt="Stratejik Logo" class="logo">
+        <button id="langToggle" class="btn lang-toggle">EN</button>
     </header>
 
     <main class="main-content">
         <div class="text-container">
-            <h1 class="main-headline">Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.</h1>
-            <p class="sub-headline">
+            <h1 class="main-headline" id="mainHeadline">Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.</h1>
+            <p class="sub-headline" id="subHeadline">
                 İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.
             </p>
-            <a href="#projeler" class="cta-button">İletişime Geçin.</a>
+            <a href="#projeler" class="btn cta-button" id="ctaBtn">İletişime Geçin.</a>
         </div>
     </main>
 
     <script>
+        // Sayfa yüklendiğinde çalışacak kod
         document.addEventListener('DOMContentLoaded', function() {
+            // Dil değiştirme işlevselliği
+            const texts = {
+                tr: {
+                    mainHeadline: "Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.",
+                    subHeadline: "İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.",
+                    ctaBtn: "İletişime Geçin."
+                },
+                en: {
+                    mainHeadline: "We Develop Value-Added Real Estate with Innovation in Architecture.",
+                    subHeadline: "From the first design decisions to project delivery, we discover optimal solutions that fully realize potential through strategic choices at every stage.",
+                    ctaBtn: "Contact Us."
+                }
+            };
+            let currentLang = 'tr';
+
+            // Gerekli elementleri seç
+            const langToggle = document.getElementById('langToggle');
+            const mainHeadline = document.getElementById('mainHeadline');
+            const subHeadline = document.getElementById('subHeadline');
+            const ctaBtn = document.getElementById('ctaBtn');
+
+            // Dil değiştirme butonuna tıklama olayını ekle
+            langToggle.onclick = function() {
+                currentLang = currentLang === 'tr' ? 'en' : 'tr';
+                mainHeadline.textContent = texts[currentLang].mainHeadline;
+                subHeadline.textContent = texts[currentLang].subHeadline;
+                ctaBtn.textContent = texts[currentLang].ctaBtn;
+                langToggle.textContent = currentLang === 'tr' ? 'EN' : 'TR';
+            };
+
+            // Video background functionality
             const thumbVideo = document.getElementById('bgVideoThumb');
             const mainVideo = document.getElementById('bgVideo');
 
