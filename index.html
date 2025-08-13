@@ -14,7 +14,7 @@
             --background-color: #000000;
             --cta-background-color: rgba(255, 255, 255, 0.05);
             --cta-hover-background-color: rgba(255, 255, 255, 0.1);
-            --text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            --text-shadow: none; /* Varsayılan olarak gölge yok */
         }
 
         /* Genel Sayfa Ayarları */
@@ -131,7 +131,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: background-color 0.3s ease, transform 0.3s ease;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(2px);
             cursor: pointer;
             position: relative;
             z-index: 101;
@@ -139,9 +139,14 @@
 
         .btn:hover {
             background-color: var(--cta-hover-background-color);
-            transform: translateY(-2px);
-        }
+            backdrop-filter: blur(4px);
+            background-color:rgba(255, 255, 255, 0.15);
 
+        }
+        .btn:active{
+            transform: translateY(1px);
+            background-color:rgba(255, 255, 255, 0.45);
+        }
         .cta-button {
             margin-top: 4rem;
         }
@@ -206,17 +211,18 @@
 
             .main-headline {
                 padding-top: 2em;
-                font-size: 2em;
+                font-size: 1.5em;
             }
 
             .sub-headline {
                 padding: 2em;
-                font-size: 1.5em;
+                font-size: 1.3em;
                 max-width: 100%;
             }
 
             /* Mobilde iletişim butonunu ortala */
             .cta-button {
+                margin-top: 8em;
                 margin-left: auto;
                 margin-right: auto;
                 display: table; /* inline-block yerine table kullanarak daha iyi ortalama */
@@ -245,7 +251,7 @@
 
         .footer a {
             color: var(--primary-text-color);
-            text-decoration: none;
+            text-decoration: underline;
             font-size: 1.5em;
             transition: opacity 0.3s ease;
             text-shadow: var(--text-shadow);
@@ -255,12 +261,16 @@
             opacity: 0.8;
         }
 
+        .footer a:active {
+            text-decoration: none;
+        }
+
         @media (max-width: 768px) {
             .footer {
                 padding: 1.5rem;
             }
             .footer a {
-                font-size: 1.5em;
+                font-size: 1.3em;
             }
         }
     </style>
@@ -289,7 +299,7 @@
             <p class="sub-headline" id="subHeadline">
                 İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.
             </p>
-            <a href="#projeler" class="btn cta-button" id="ctaBtn">İletişime Geçin.</a>
+            <a href="#projeler" class="btn cta-button" id="ctaBtn">İletişime Geçin</a>
         </div>
     </main>
 
@@ -301,12 +311,12 @@
                 tr: {
                     mainHeadline: "Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.",
                     subHeadline: "İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.",
-                    ctaBtn: "İletişime Geçin."
+                    ctaBtn: "İletişime Geçin"
                 },
                 en: {
                     mainHeadline: "We Develop Value-Added Real Estate with Innovation in Architecture.",
                     subHeadline: "From the first design decisions to project delivery, we discover optimal solutions that fully realize potential through strategic choices at every stage.",
-                    ctaBtn: "Contact Us."
+                    ctaBtn: "Contact Us"
                 }
             };
             let currentLang = 'tr';
