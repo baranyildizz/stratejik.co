@@ -2,10 +2,33 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
 
+    <!-- SEO ve Sayfa Bilgileri -->
     <title>Stratejik | İnovatif Mimarlık ve Gayrimenkul Geliştirme</title>
-    <meta name="description" content="Stratejik, mimarlık ve gayrimenkul geliştirme süreçlerini birleştirerek projelere katma değer, optimizasyon ve inovasyon katar. Antalya merkezli projeler.">
+    <meta name="description" content="Antalya merkezli mimarlık ve gayrimenkul geliştirme ofisi. Projelerinize inovasyon ve stratejik planlama ile değer katıyoruz.">
+    <meta name="keywords" content="mimarlık, gayrimenkul geliştirme, antalya mimar, proje yönetimi, stratejik mimarlık, inovasyon">
+    <meta name="author" content="Stratejik">
+    <link rel="canonical" href="https://stratejik.co">
+
+    <!-- Favicon (Marka Kimliği) -->
+    <link rel="icon" type="image/svg+xml" href="stratejik.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Open Graph / Facebook & WhatsApp Önizlemeleri -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stratejik.co/">
+    <meta property="og:title" content="Stratejik | Mimarlıkta İnovasyon">
+    <meta property="og:description" content="Mimari tasarım ve gayrimenkul geliştirmede stratejik çözümler.">
+    <meta property="og:image" content="https://stratejik.co/social-share.jpg"> <!-- 1200x630px görsel önerilir -->
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://stratejik.co/">
+    <meta property="twitter:title" content="Stratejik | Mimarlıkta İnovasyon">
+    <meta property="twitter:description" content="Mimari tasarım ve gayrimenkul geliştirmede stratejik çözümler.">
+    <meta property="twitter:image" content="https://stratejik.co/social-share.jpg">
     
     <style>
         /* --- CSS Variables --- */
@@ -14,11 +37,12 @@
             --bg-color: #000000;
             --cta-bg: rgba(255, 255, 255, 0.1);
             --cta-hover: rgba(255, 255, 255, 0.25);
-            --safe-bottom: env(safe-area-inset-bottom, 20px); /* iPhone Home Bar güvenli alan */
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            --overlay-color: rgba(0, 0, 0, 0.3); /* Video üzeri karartma */
         }
 
         /* --- Reset & Base --- */
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
         }
 
@@ -30,18 +54,32 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--primary-text);
-            overflow: hidden; /* Scroll engelleme */
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased; /* Fontları daha keskin yapar */
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- Background Video --- */
-        .video-background {
+        /* --- Background Video & Overlay --- */
+        .video-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-color: #000; /* Video yüklenene kadar siyah */
+            background-color: #000;
+        }
+
+        /* Video'nun üzerine gelen hafif siyah katman (Okunabilirlik için şart) */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-color);
+            z-index: 1; /* Videonun üstünde, içeriğin altında */
+            pointer-events: none;
         }
 
         .video-element {
@@ -53,6 +91,7 @@
             object-fit: cover;
             transform: translate(-50%, -50%);
             transition: opacity 1.5s ease-in-out;
+            z-index: 0;
         }
 
         #bgVideoThumb { opacity: 1; filter: blur(20px); transform: translate(-50%, -50%) scale(1.1); }
@@ -69,14 +108,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Header arkaplanı kaldırıldı, temiz görünüm için */
         }
 
         .logo {
             width: 220px;
             height: auto;
-            filter: invert(100%);
+            filter: invert(100%); /* İdeal dünyada buraya beyaz bir SVG koymalısın */
             display: block;
+            will-change: transform; /* Performans optimizasyonu */
         }
 
         /* --- Main Content --- */
@@ -85,9 +124,9 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100dvh; /* Dynamic viewport height for mobile browsers */
+            height: 100dvh;
             display: flex;
-            align-items: center; /* Dikey ortalama */
+            align-items: center;
             justify-content: flex-start;
             padding-left: 6rem;
             padding-right: 2rem;
@@ -98,15 +137,16 @@
             max-width: 65%;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem; /* Başlıklar arası boşluk yönetimi */
+            gap: 1.5rem;
         }
 
-        /* Responsive Typography with clamp() */
+        /* Typography */
         .main-headline {
             font-size: clamp(1.8rem, 4vw, 3.5rem);
             font-weight: 700;
             line-height: 1.1;
             margin: 0;
+            letter-spacing: -0.02em; /* Modern tipografi dokunuşu */
         }
 
         .sub-headline {
@@ -114,10 +154,10 @@
             line-height: 1.6;
             margin: 0;
             max-width: 90%;
-            opacity: 0.9;
+            opacity: 0.95; /* Overlay olduğu için opaklığı artırdım */
         }
 
-        /* --- CTA Button & Lang Toggle --- */
+        /* --- Buttons --- */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -127,10 +167,16 @@
             border: 1px solid var(--primary-text);
             border-radius: 50px;
             background: var(--cta-bg);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px); /* Blur artırıldı */
+            -webkit-backdrop-filter: blur(10px); /* Safari desteği */
             transition: all 0.3s ease;
             cursor: pointer;
             font-weight: 500;
+            outline: none;
+        }
+
+        .btn:focus-visible {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Klavye erişimi için focus halkası */
         }
 
         .btn:hover { background: var(--cta-hover); }
@@ -139,11 +185,13 @@
         .lang-toggle {
             padding: 0.5rem 1.2rem;
             font-size: 0.9rem;
-            z-index: 102; /* Logodan yukarıda */
+            z-index: 102;
+            background: rgba(0,0,0,0.3); /* Dil butonu daha belirgin olsun */
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .cta-button {
-            align-self: flex-start; /* Sola yasla */
+            align-self: flex-start;
             padding: 1rem 2.5rem;
             font-size: 1.1rem;
             margin-top: 1rem;
@@ -159,10 +207,13 @@
             z-index: 100;
             display: flex;
             justify-content: space-between;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            /* Gradient biraz daha yumuşatıldı */
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+            pointer-events: none; /* Footer alanı tıklamaları engellemesin */
         }
-
+        
         .footer a {
+            pointer-events: auto; /* Linkler tıklanabilsin */
             color: var(--primary-text);
             text-decoration: none;
             font-size: 1rem;
@@ -179,17 +230,16 @@
             bottom: -2px;
             left: 0;
             background-color: #fff;
-            transition: width 0.3s;
+            transition: width 0.3s ease-out;
         }
 
         .footer a:hover { opacity: 1; }
         .footer a:hover::after { width: 100%; }
 
         /* =========================================
-           MOBILE & RESPONSIVE AYARLARI
+           MOBILE & RESPONSIVE
            ========================================= */
 
-        /* 1. Tablet ve Mobil (Dikey) */
         @media (max-width: 1024px) {
             .header { padding: 2rem; }
             .logo { width: 180px; }
@@ -199,23 +249,12 @@
             .footer { padding: 2rem; }
         }
 
-        /* 2. Mobil Dikey (Telefonlar) */
         @media (max-width: 768px) {
-            body { overflow-y: auto; overflow-x: hidden; } /* Scrolla izin ver ama yatay taşmayı engelle */
+            body { overflow-y: auto; overflow-x: hidden; }
             
-            .header {
-                padding: 1.5rem;
-                justify-content: center; /* Logoyu ortala */
-            }
-
-            .logo {
-                width: 160px;
-                /* Mutlak pozisyon yerine flex ile ortalama */
-                position: relative; 
-                transform: none; 
-                left: auto;
-            }
-
+            .header { padding: 1.5rem; justify-content: center; }
+            .logo { width: 160px; position: relative; left: auto; transform: none; }
+            
             .lang-toggle {
                 position: absolute;
                 right: 1.5rem;
@@ -225,10 +264,10 @@
             }
 
             .main-content {
-                position: relative; /* Fixed yerine relative akış */
+                position: relative;
                 height: auto;
                 min-height: 100dvh;
-                padding: 140px 1.5rem 100px 1.5rem; /* Header ve Footer payları */
+                padding: 140px 1.5rem 100px 1.5rem;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -239,7 +278,7 @@
             .sub-headline { font-size: 1rem; }
             
             .cta-button {
-                width: 100%; /* Tam genişlik butonu mobilde daha kolay tıklanır */
+                width: 100%;
                 max-width: 300px;
                 padding: 1rem;
             }
@@ -248,26 +287,24 @@
                 padding: 1.5rem;
                 padding-bottom: calc(1rem + var(--safe-bottom));
                 justify-content: space-around;
-                background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%);
+                background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0) 100%);
             }
-            
             .footer a { font-size: 0.9rem; }
         }
 
-        /* 3. Landscape Modu (Telefonu yan çevirince) 
-           Yükseklik az olduğu için her şeyi küçültüyoruz */
+        /* Landscape Optimization */
         @media (max-height: 500px) and (orientation: landscape) {
             .header { padding: 1rem 2rem; }
             .logo { width: 140px; }
             .lang-toggle { top: 1rem; right: 2rem; }
             
             .main-content {
-                padding: 80px 2rem 60px 2rem; /* Üst ve alt boşlukları azalt */
+                padding: 80px 2rem 60px 2rem;
                 min-height: 100dvh;
             }
 
             .text-container {
-                flex-direction: row; /* Yazı ve butonu yan yana al */
+                flex-direction: row;
                 align-items: center;
                 gap: 2rem;
                 text-align: left;
@@ -275,7 +312,7 @@
             }
 
             .main-headline { font-size: 1.4rem; flex: 1; }
-            .sub-headline { display: none; } /* Yer yoksa alt metni gizle veya çok küçült */
+            .sub-headline { display: none; }
             
             .cta-button {
                 margin: 0;
@@ -294,19 +331,23 @@
 </head>
 <body>
 
-    <div class="video-background">
-        <!-- Poster attribute eklemek iyi bir pratiktir -->
-        <video id="bgVideoThumb" class="video-element" autoplay loop muted playsinline>
+    <div class="video-container">
+        <!-- Overlay Katmanı: Yazı okunabilirliği için -->
+        <div class="video-overlay"></div>
+        
+        <video id="bgVideoThumb" class="video-element" autoplay loop muted playsinline aria-hidden="true">
             <source src="videos/sea-thumbnail.mp4" type="video/mp4">
         </video>
-        <video id="bgVideo" class="video-element" loop muted playsinline preload="auto">
+        <video id="bgVideo" class="video-element" loop muted playsinline preload="auto" aria-hidden="true">
             <source src="videos/sea.mp4" type="video/mp4">
         </video>
     </div>
 
     <header class="header">
-        <img src="stratejik.svg" alt="Stratejik Logo" class="logo">
-        <button id="langToggle" class="btn lang-toggle">EN</button>
+        <a href="/" aria-label="Ana Sayfa">
+            <img src="stratejik.svg" alt="Stratejik Mimarlık Logo" class="logo">
+        </a>
+        <button id="langToggle" class="btn lang-toggle" aria-label="Dili İngilizceye Çevir">EN</button>
     </header>
 
     <main class="main-content">
@@ -317,14 +358,14 @@
                     İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.
                 </p>
             </div>
-            <a href="mailto:baranyildiz4@gmail.com" class="btn cta-button" id="ctaBtn">İletişime Geçin</a>
+            <a href="mailto:baranyildiz4@gmail.com" class="btn cta-button" id="ctaBtn" role="button">İletişime Geçin</a>
         </div>
     </main>
 
     <footer class="footer">
-        <a href="https://instagram.com/stratejik.co" target="_blank">Instagram</a>
-        <a href="mailto:baranyildiz4@gmail.com">Email</a>
-        <a href="https://maps.app.goo.gl/JWoJA8xjEqFPjVyT9" target="_blank">Antalya</a>
+        <a href="https://instagram.com/stratejik.co" target="_blank" rel="noopener noreferrer" aria-label="Instagram sayfamızı ziyaret edin">Instagram</a>
+        <a href="mailto:baranyildiz4@gmail.com" aria-label="Bize e-posta gönderin">Email</a>
+        <a href="https://maps.app.goo.gl/JWoJA8xjEqFPjVyT9" target="_blank" rel="noopener noreferrer" aria-label="Ofis konumunu haritada görün">Antalya</a>
     </footer>
 
     <script>
@@ -334,12 +375,14 @@
                 tr: {
                     mainHeadline: "Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.",
                     subHeadline: "İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.",
-                    ctaBtn: "İletişime Geçin"
+                    ctaBtn: "İletişime Geçin",
+                    langLabel: "Dili İngilizceye Çevir"
                 },
                 en: {
                     mainHeadline: "We Develop Value-Added Real Estate with Innovation in Architecture.",
                     subHeadline: "From initial design decisions to delivery, we discover optimal solutions that fully realize potential through strategic choices at every stage.",
-                    ctaBtn: "Contact Us"
+                    ctaBtn: "Contact Us",
+                    langLabel: "Switch language to Turkish"
                 }
             };
             let currentLang = 'tr';
@@ -351,20 +394,27 @@
 
             langToggle.onclick = function() {
                 currentLang = currentLang === 'tr' ? 'en' : 'tr';
-                // Yumuşak geçiş efekti için
+                
+                // Fade out
                 const elements = [mainHeadline, subHeadline, ctaBtn];
                 elements.forEach(el => el.style.opacity = '0');
                 
                 setTimeout(() => {
+                    // Update text
                     mainHeadline.textContent = texts[currentLang].mainHeadline;
                     subHeadline.textContent = texts[currentLang].subHeadline;
                     ctaBtn.textContent = texts[currentLang].ctaBtn;
+                    
+                    // Update Button State
                     langToggle.textContent = currentLang === 'tr' ? 'EN' : 'TR';
+                    langToggle.setAttribute('aria-label', texts[currentLang].langLabel);
+                    
+                    // Fade in
                     elements.forEach(el => el.style.opacity = '1');
                 }, 200);
             };
 
-            // Metin geçiş css'i
+            // Transition styles
             [mainHeadline, subHeadline, ctaBtn].forEach(el => {
                 el.style.transition = 'opacity 0.2s ease';
             });
@@ -374,11 +424,10 @@
             const mainVideo = document.getElementById('bgVideo');
 
             const startVideos = () => {
-                thumbVideo.play().catch(e => console.log("Thumb play error", e));
-                mainVideo.play().catch(e => console.log("Main play error", e));
+                thumbVideo.play().catch(() => {});
+                mainVideo.play().catch(() => {});
             };
 
-            // Modern tarayıcılar için etkileşim
             document.body.addEventListener('click', startVideos, { once: true });
             document.body.addEventListener('touchstart', startVideos, { once: true });
 
@@ -389,7 +438,9 @@
                 mainVideo.style.opacity = '1';
                 setTimeout(() => {
                     thumbVideo.style.opacity = '0';
-                }, 500); // Biraz daha yumuşak geçiş
+                    // Thumbnail'i durdurarak işlemciyi rahatlat
+                    setTimeout(() => thumbVideo.pause(), 1000); 
+                }, 500);
             }, { once: true });
             
             mainVideo.addEventListener('error', () => {
