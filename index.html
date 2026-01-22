@@ -2,40 +2,38 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Stratejik | İnovatif Mimarlık ve Gayrimenkul Geliştirme</title>
     <meta name="description" content="Stratejik, mimarlık ve gayrimenkul geliştirme süreçlerini birleştirerek projelere katma değer, optimizasyon ve inovasyon katar. Antalya merkezli projeler.">
     
     <style>
-        /* CSS Değişkenleri: Tasarımı tek bir yerden yönetmek için */
+        /* --- CSS Variables --- */
         :root {
-            --primary-text-color: #ffffff;
-            --background-color: #000000;
-            --cta-background-color: rgba(255, 255, 255, 0.05);
-            --cta-hover-background-color: rgba(255, 255, 255, 0.1);
-            --text-shadow: none; /* Varsayılan olarak gölge yok */
+            --primary-text: #ffffff;
+            --bg-color: #000000;
+            --cta-bg: rgba(255, 255, 255, 0.1);
+            --cta-hover: rgba(255, 255, 255, 0.25);
+            --safe-bottom: env(safe-area-inset-bottom, 20px); /* iPhone Home Bar güvenli alan */
         }
 
-        /* Genel Sayfa Ayarları */
-        html {
-            scroll-behavior: smooth;
+        /* --- Reset & Base --- */
+        * {
+            box-sizing: border-box;
         }
-        body {
+
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-text-color);
-            overflow: hidden; /* Dikey kaydırmayı engeller */
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            overflow: hidden; /* Scroll engelleme */
         }
 
-        /* Arka Plan Video Konteyneri */
+        /* --- Background Video --- */
         .video-background {
             position: fixed;
             top: 0;
@@ -43,7 +41,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-color: var(--background-color);
+            background-color: #000; /* Video yüklenene kadar siyah */
         }
 
         .video-element {
@@ -57,238 +55,251 @@
             transition: opacity 1.5s ease-in-out;
         }
 
-        #bgVideoThumb {
-            /* Başlangıçta bu görünür */
-            opacity: 1;
-            filter: blur(20px);
-            transform: translate(-50%, -50%) scale(1.1);
-        }
+        #bgVideoThumb { opacity: 1; filter: blur(20px); transform: translate(-50%, -50%) scale(1.1); }
+        #bgVideo { opacity: 0; }
 
-        #bgVideo {
-            /* Ana video başlangıçta gizli */
-            opacity: 0;
-        }
-        
-        /* Üst Kısım (Logo) */
+        /* --- Header --- */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 4rem 4rem 2rem 6rem;
-            box-sizing: border-box;
+            padding: 3rem 4rem;
             z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            /* Header arkaplanı kaldırıldı, temiz görünüm için */
         }
 
         .logo {
-            width: 250px;
+            width: 220px;
+            height: auto;
             filter: invert(100%);
+            display: block;
         }
 
-        /* Ana İçerik */
+        /* --- Main Content --- */
         .main-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh; /* Dynamic viewport height for mobile browsers */
             display: flex;
-            align-items: center;
+            align-items: center; /* Dikey ortalama */
             justify-content: flex-start;
-            height: 100vh;
-            padding: 2rem 2rem 2rem 6rem; /* Sol padding'i artırdık */
-            box-sizing: border-box;
-            position: relative;
+            padding-left: 6rem;
+            padding-right: 2rem;
             z-index: 10;
         }
 
         .text-container {
-            max-width: 66%;
-            text-shadow: var(--text-shadow);
-            height: 50vh; /* Ekran yüksekliğinin yarısı kadar sabit yükseklik */
+            max-width: 65%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* İçeriği yukarı dayar */
-            align-items: flex-start;
+            gap: 1.5rem; /* Başlıklar arası boşluk yönetimi */
         }
 
+        /* Responsive Typography with clamp() */
         .main-headline {
-            font-size: 2.5em;
-            margin: 0 0 0.2em 0; /* Üstten margin'i kaldırdık */
+            font-size: clamp(1.8rem, 4vw, 3.5rem);
+            font-weight: 700;
             line-height: 1.1;
-            min-height: 2.2em; /* İki satır yüksekliği */
+            margin: 0;
         }
 
         .sub-headline {
-            font-size: 2em;
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
             line-height: 1.6;
+            margin: 0;
             max-width: 90%;
-            margin: 1em 0 1.5em 0; /* Alt margin'i sabit tutuyoruz */
-            min-height: 4.8em; /* Üç satır yüksekliği */
+            opacity: 0.9;
         }
 
-        /* Eylem Çağrısı Butonu */
+        /* --- CTA Button & Lang Toggle --- */
         .btn {
-            display: inline-block;
-            padding: 0.8rem 1.8rem;
-            border: 1px solid var(--primary-text-color);
-            border-radius: 50px;
-            background-color: var(--cta-background-color);
-            color: var(--primary-text-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            backdrop-filter: blur(2px);
+            color: var(--primary-text);
+            border: 1px solid var(--primary-text);
+            border-radius: 50px;
+            background: var(--cta-bg);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
             cursor: pointer;
-            position: relative;
-            z-index: 101;
+            font-weight: 500;
         }
 
-        .btn:hover {
-            background-color: var(--cta-hover-background-color);
-            backdrop-filter: blur(4px);
-            background-color:rgba(255, 255, 255, 0.15);
-
-        }
-        .btn:active{
-            transform: translateY(1px);
-            background-color:rgba(255, 255, 255, 0.45);
-        }
-        .cta-button {
-            margin-top: 4rem;
-        }
+        .btn:hover { background: var(--cta-hover); }
+        .btn:active { transform: scale(0.98); }
 
         .lang-toggle {
             padding: 0.5rem 1.2rem;
-            margin-left: 1rem;
+            font-size: 0.9rem;
+            z-index: 102; /* Logodan yukarıda */
         }
 
-        /* Mobil Cihazlar için Media Query */
-        @media (max-width: 768px) {
-            body {
-                overflow-y: auto; /* Mobilde içerik sığmazsa kaydırmaya izin ver */
-            }
-            .header {
-                position: fixed;
-                padding: 4rem 1rem 1rem 1rem;
-                width: 100%;
-                background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
-                box-sizing: border-box;
-            }
-
-            /* EN butonu için özel konteyner */
-            .header::before {
-                content: '';
-                position: absolute;
-                right: 1.5rem;
-                top: 1rem;
-                width: auto;
-                height: auto;
-            }
-            
-            /* Logo konteyneri */
-            .logo {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 180px;
-            }
-
-            /* Dil değiştirme butonu */
-            .lang-toggle {
-                position: absolute;
-                right: 1.5rem;
-                top: 3rem;
-                padding: 0.4rem 1rem;
-                margin: 0;
-            }            .main-content {
-                display: block;
-                height: auto;
-                text-align: center;
-                padding: 0 1.5rem 3rem 1.5rem;
-                margin-top: 120px; /* Logo ve header için yeterli boşluk */
-            }
-
-            .text-container {
-                max-width: 95%;
-                padding: 0;
-                text-shadow: none;
-                margin: 0 auto;
-            }
-
-            .main-headline {
-                padding-top: 2em;
-                font-size: 1.5em;
-            }
-
-            .sub-headline {
-                padding: 2em;
-                font-size: 1.3em;
-                max-width: 100%;
-            }
-
-            /* Mobilde iletişim butonunu ortala */
-            .cta-button {
-                margin-top: 8em;
-                margin-left: auto;
-                margin-right: auto;
-                display: table; /* inline-block yerine table kullanarak daha iyi ortalama */
-            }
-
-            /* Dil değiştirme butonunun mobil stili */
-            .lang-toggle {
-                padding: 0.4rem 1rem; /* Mobilde biraz daha küçük padding */
-            }
+        .cta-button {
+            align-self: flex-start; /* Sola yasla */
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
         }
 
-        /* Footer Stili */
+        /* --- Footer --- */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            padding: 2rem 6em;
-            box-sizing: border-box;
+            padding: 2rem 6rem;
             z-index: 100;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
         }
 
         .footer a {
-            color: var(--primary-text-color);
-            text-decoration: underline;
-            font-size: 1.5em;
-            transition: opacity 0.3s ease;
-            text-shadow: var(--text-shadow);
+            color: var(--primary-text);
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            position: relative;
+        }
+        
+        .footer a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #fff;
+            transition: width 0.3s;
         }
 
-        .footer a:hover {
-            opacity: 0.7;
+        .footer a:hover { opacity: 1; }
+        .footer a:hover::after { width: 100%; }
+
+        /* =========================================
+           MOBILE & RESPONSIVE AYARLARI
+           ========================================= */
+
+        /* 1. Tablet ve Mobil (Dikey) */
+        @media (max-width: 1024px) {
+            .header { padding: 2rem; }
+            .logo { width: 180px; }
+            .main-content { padding: 0 2rem; justify-content: center; text-align: center; }
+            .text-container { max-width: 100%; align-items: center; }
+            .cta-button { align-self: center; }
+            .footer { padding: 2rem; }
         }
 
-        .footer a:active {
-            transform: translateY(2px);
-        }
-
+        /* 2. Mobil Dikey (Telefonlar) */
         @media (max-width: 768px) {
+            body { overflow-y: auto; overflow-x: hidden; } /* Scrolla izin ver ama yatay taşmayı engelle */
+            
+            .header {
+                padding: 1.5rem;
+                justify-content: center; /* Logoyu ortala */
+            }
+
+            .logo {
+                width: 160px;
+                /* Mutlak pozisyon yerine flex ile ortalama */
+                position: relative; 
+                transform: none; 
+                left: auto;
+            }
+
+            .lang-toggle {
+                position: absolute;
+                right: 1.5rem;
+                top: 1.5rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .main-content {
+                position: relative; /* Fixed yerine relative akış */
+                height: auto;
+                min-height: 100dvh;
+                padding: 140px 1.5rem 100px 1.5rem; /* Header ve Footer payları */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .text-container { gap: 2rem; }
+            .main-headline { font-size: 1.75rem; }
+            .sub-headline { font-size: 1rem; }
+            
+            .cta-button {
+                width: 100%; /* Tam genişlik butonu mobilde daha kolay tıklanır */
+                max-width: 300px;
+                padding: 1rem;
+            }
+
             .footer {
                 padding: 1.5rem;
+                padding-bottom: calc(1rem + var(--safe-bottom));
+                justify-content: space-around;
+                background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%);
             }
-            .footer a {
-                font-size: 1.3em;
+            
+            .footer a { font-size: 0.9rem; }
+        }
+
+        /* 3. Landscape Modu (Telefonu yan çevirince) 
+           Yükseklik az olduğu için her şeyi küçültüyoruz */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header { padding: 1rem 2rem; }
+            .logo { width: 140px; }
+            .lang-toggle { top: 1rem; right: 2rem; }
+            
+            .main-content {
+                padding: 80px 2rem 60px 2rem; /* Üst ve alt boşlukları azalt */
+                min-height: 100dvh;
             }
+
+            .text-container {
+                flex-direction: row; /* Yazı ve butonu yan yana al */
+                align-items: center;
+                gap: 2rem;
+                text-align: left;
+                max-width: 900px;
+            }
+
+            .main-headline { font-size: 1.4rem; flex: 1; }
+            .sub-headline { display: none; } /* Yer yoksa alt metni gizle veya çok küçült */
+            
+            .cta-button {
+                margin: 0;
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+
+            .footer {
+                padding: 0.5rem 2rem;
+                padding-bottom: env(safe-area-inset-bottom, 5px);
+            }
+            .footer a { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="video-background">
+        <!-- Poster attribute eklemek iyi bir pratiktir -->
         <video id="bgVideoThumb" class="video-element" autoplay loop muted playsinline>
-
             <source src="videos/sea-thumbnail.mp4" type="video/mp4">
         </video>
         <video id="bgVideo" class="video-element" loop muted playsinline preload="auto">
-
             <source src="videos/sea.mp4" type="video/mp4">
         </video>
     </div>
@@ -300,18 +311,25 @@
 
     <main class="main-content">
         <div class="text-container">
-            <h1 class="main-headline" id="mainHeadline">Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.</h1>
-            <p class="sub-headline" id="subHeadline">
-                İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.
-            </p>
+            <div>
+                <h1 class="main-headline" id="mainHeadline">Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.</h1>
+                <p class="sub-headline" id="subHeadline">
+                    İlk tasarım kararlarından, projenin teslimine kadar her aşamasında stratejik kararlarla, potansiyeli sonuna kadar değerlendiren optimum çözümleri keşfediyoruz.
+                </p>
+            </div>
             <a href="mailto:baranyildiz4@gmail.com" class="btn cta-button" id="ctaBtn">İletişime Geçin</a>
         </div>
     </main>
 
+    <footer class="footer">
+        <a href="https://instagram.com/stratejik.co" target="_blank">Instagram</a>
+        <a href="mailto:baranyildiz4@gmail.com">Email</a>
+        <a href="https://maps.app.goo.gl/JWoJA8xjEqFPjVyT9" target="_blank">Antalya</a>
+    </footer>
+
     <script>
-        // Sayfa yüklendiğinde çalışacak kod
         document.addEventListener('DOMContentLoaded', function() {
-            // Dil değiştirme işlevselliği
+            // --- Dil Yönetimi ---
             const texts = {
                 tr: {
                     mainHeadline: "Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.",
@@ -320,73 +338,65 @@
                 },
                 en: {
                     mainHeadline: "We Develop Value-Added Real Estate with Innovation in Architecture.",
-                    subHeadline: "From the first design decisions to project delivery, we discover optimal solutions that fully realize potential through strategic choices at every stage.",
+                    subHeadline: "From initial design decisions to delivery, we discover optimal solutions that fully realize potential through strategic choices at every stage.",
                     ctaBtn: "Contact Us"
                 }
             };
             let currentLang = 'tr';
 
-            // Gerekli elementleri seç
             const langToggle = document.getElementById('langToggle');
             const mainHeadline = document.getElementById('mainHeadline');
             const subHeadline = document.getElementById('subHeadline');
             const ctaBtn = document.getElementById('ctaBtn');
 
-            // Dil değiştirme butonuna tıklama olayını ekle
             langToggle.onclick = function() {
                 currentLang = currentLang === 'tr' ? 'en' : 'tr';
-                mainHeadline.textContent = texts[currentLang].mainHeadline;
-                subHeadline.textContent = texts[currentLang].subHeadline;
-                ctaBtn.textContent = texts[currentLang].ctaBtn;
-                langToggle.textContent = currentLang === 'tr' ? 'EN' : 'TR';
+                // Yumuşak geçiş efekti için
+                const elements = [mainHeadline, subHeadline, ctaBtn];
+                elements.forEach(el => el.style.opacity = '0');
+                
+                setTimeout(() => {
+                    mainHeadline.textContent = texts[currentLang].mainHeadline;
+                    subHeadline.textContent = texts[currentLang].subHeadline;
+                    ctaBtn.textContent = texts[currentLang].ctaBtn;
+                    langToggle.textContent = currentLang === 'tr' ? 'EN' : 'TR';
+                    elements.forEach(el => el.style.opacity = '1');
+                }, 200);
             };
 
-            // Video background functionality
+            // Metin geçiş css'i
+            [mainHeadline, subHeadline, ctaBtn].forEach(el => {
+                el.style.transition = 'opacity 0.2s ease';
+            });
+
+            // --- Video Yönetimi ---
             const thumbVideo = document.getElementById('bgVideoThumb');
             const mainVideo = document.getElementById('bgVideo');
 
-            // Hata durumunda veya düşük güç modunda kullanıcı etkileşimiyle videoları başlatacak fonksiyon
-            function handlePlayError(error) {
-                console.warn("Otomatik oynatma engellendi. Kullanıcı etkileşimi bekleniyor.");
-                const startVideos = () => {
-                    // Kullanıcı tıkladığında her iki videoyu da oynatmayı dene
-                    thumbVideo.play().catch(err => console.error("Thumbnail etkileşim sonrası oynatılamadı:", err));
-                    mainVideo.play().catch(err => console.error("Ana video etkileşim sonrası oynatılamadı:", err));
-                };
-                // Dinleyicileri sadece bir kere çalışacak şekilde ekle
-                document.body.addEventListener('click', startVideos, { once: true });
-                document.body.addEventListener('touchstart', startVideos, { once: true });
-            }
+            const startVideos = () => {
+                thumbVideo.play().catch(e => console.log("Thumb play error", e));
+                mainVideo.play().catch(e => console.log("Main play error", e));
+            };
 
-            // Sayfa yüklenir yüklenmez videoları oynatmayı dene
-            thumbVideo.play().catch(handlePlayError);
-            mainVideo.play().catch(handlePlayError);
+            // Modern tarayıcılar için etkileşim
+            document.body.addEventListener('click', startVideos, { once: true });
+            document.body.addEventListener('touchstart', startVideos, { once: true });
 
+            thumbVideo.play().catch(() => {});
+            mainVideo.play().catch(() => {});
 
-            // Ana video oynatılabilecek duruma geldiğinde (yeterince veri yüklendiğinde) geçişi yap
-            mainVideo.addEventListener('canplay', () => {
-                // Ana videoyu yavaşça görünür yap
+            mainVideo.addEventListener('canplaythrough', () => {
                 mainVideo.style.opacity = '1';
-                // Eş zamanlı olarak thumbnail videoyu yavaşça gizle
-                thumbVideo.style.opacity = '0';
-            }, { once: true }); // Bu olay sadece bir kez çalışsın
-
-            // ÖNEMLİ: Ana video yüklenirken bir hata olursa ne olacak?
+                setTimeout(() => {
+                    thumbVideo.style.opacity = '0';
+                }, 500); // Biraz daha yumuşak geçiş
+            }, { once: true });
+            
             mainVideo.addEventListener('error', () => {
-                console.error("Ana video yüklenemedi. Bulanık thumbnail video gösterilmeye devam edecek.");
-                // Hata durumunda, geçişin hiç başlamadığından emin olmak için thumbnail'i görünür kıl
                 thumbVideo.style.opacity = '1';
-                // Ve ana videonun tamamen gizli kaldığından emin ol
                 mainVideo.style.opacity = '0';
             });
         });
     </script>
-
-    <footer class="footer">
-        <a href="https://instagram.com/stratejik.co" target="_blank">Instagram</a>
-        <a href="mailto:baranyildiz4@gmail.com">info@stratejik.co</a>
-        <a href="https://maps.app.goo.gl/JWoJA8xjEqFPjVyT9" target="_blank">Antalya</a>
-    </footer>
-
 </body>
 </html>
