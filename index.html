@@ -16,12 +16,17 @@
     <link rel="icon" type="image/svg+xml" href="stratejik.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+    <!-- Google Fonts: Inter Eklendi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Open Graph / Facebook & WhatsApp Önizlemeleri -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stratejik.co/">
     <meta property="og:title" content="Stratejik | Mimarlıkta İnovasyon">
     <meta property="og:description" content="Mimari tasarım ve gayrimenkul geliştirmede stratejik çözümler.">
-    <meta property="og:image" content="https://stratejik.co/social-share.jpg"> <!-- 1200x630px görsel önerilir -->
+    <meta property="og:image" content="https://stratejik.co/social-share.jpg">
 
     <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image">
@@ -51,11 +56,12 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: transparent; /* DÜZELTME: Siyah ekranı kaldırmak için şeffaf yapıldı */
+            /* Font Ailesi Inter Olarak Güncellendi */
+            font-family: 'Inter', sans-serif;
+            background-color: transparent;
             color: var(--primary-text);
             overflow: hidden;
-            -webkit-font-smoothing: antialiased; /* Fontları daha keskin yapar */
+            -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
@@ -70,7 +76,6 @@
             background-color: #000;
         }
 
-        /* Video'nun üzerine gelen hafif siyah katman (Okunabilirlik için şart) */
         .video-overlay {
             position: absolute;
             top: 0;
@@ -78,7 +83,7 @@
             width: 100%;
             height: 100%;
             background-color: var(--overlay-color);
-            z-index: 1; /* Videonun üstünde, içeriğin altında */
+            z-index: 1;
             pointer-events: none;
         }
 
@@ -113,9 +118,9 @@
         .logo {
             width: 220px;
             height: auto;
-            filter: invert(100%); /* İdeal dünyada buraya beyaz bir SVG koymalısın */
+            filter: invert(100%);
             display: block;
-            will-change: transform; /* Performans optimizasyonu */
+            will-change: transform;
         }
 
         /* --- Main Content --- */
@@ -143,10 +148,10 @@
         /* Typography */
         .main-headline {
             font-size: clamp(1.8rem, 4vw, 3.5rem);
-            font-weight: 700;
+            font-weight: 700; /* Inter Bold */
             line-height: 1.1;
             margin: 0;
-            letter-spacing: -0.02em; /* Modern tipografi dokunuşu */
+            letter-spacing: -0.03em; /* Inter için biraz daha sıkı harf aralığı */
         }
 
         .sub-headline {
@@ -154,7 +159,8 @@
             line-height: 1.6;
             margin: 0;
             max-width: 90%;
-            opacity: 0.95; /* Overlay olduğu için opaklığı artırdım */
+            opacity: 0.95;
+            font-weight: 400; /* Inter Regular */
         }
 
         /* --- Buttons --- */
@@ -167,8 +173,8 @@
             border: 1px solid var(--primary-text);
             border-radius: 50px;
             background: var(--cta-bg);
-            backdrop-filter: blur(10px); /* Blur artırıldı */
-            -webkit-backdrop-filter: blur(10px); /* Safari desteği */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             cursor: pointer;
             font-weight: 500;
@@ -176,7 +182,7 @@
         }
 
         .btn:focus-visible {
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Klavye erişimi için focus halkası */
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
         }
 
         .btn:hover { background: var(--cta-hover); }
@@ -186,7 +192,7 @@
             padding: 0.5rem 1.2rem;
             font-size: 0.9rem;
             z-index: 102;
-            background: rgba(0,0,0,0.3); /* Dil butonu daha belirgin olsun */
+            background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.3);
         }
 
@@ -197,7 +203,7 @@
             margin-top: 1rem;
         }
 
-        /* --- Footer --- */
+        /* --- Footer (ESKİ STİL GERİ GETİRİLDİ) --- */
         .footer {
             position: fixed;
             bottom: 0;
@@ -207,34 +213,27 @@
             z-index: 100;
             display: flex;
             justify-content: space-between;
-            /* Gradient biraz daha yumuşatıldı */
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
-            pointer-events: none; /* Footer alanı tıklamaları engellemesin */
+            pointer-events: none;
         }
         
         .footer a {
-            pointer-events: auto; /* Linkler tıklanabilsin */
-            color: var(--primary-text);
-            text-decoration: none;
-            font-size: 1rem;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-            position: relative;
+            pointer-events: auto;
+            color: #ffffff; /* Tam beyaz */
+            text-decoration: underline; /* Altı çizgili */
+            text-decoration-thickness: 1px; /* Çizgi kalınlığı */
+            text-underline-offset: 4px; /* Çizgi ile yazı arası boşluk */
+            font-size: 1.2rem; /* Daha belirgin boyut */
+            font-weight: 500; /* Biraz daha kalın */
+            opacity: 1; /* Opaklık yok, net beyaz */
+            transition: opacity 0.3s ease;
         }
         
-        .footer a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: #fff;
-            transition: width 0.3s ease-out;
+        /* Animasyonlu alt çizgi kaldırıldı, klasik hover efekti eklendi */
+        .footer a:hover {
+            opacity: 0.7; /* Üzerine gelince hafif soluklaşma */
+            text-decoration: underline;
         }
-
-        .footer a:hover { opacity: 1; }
-        .footer a:hover::after { width: 100%; }
 
         /* =========================================
            MOBILE & RESPONSIVE
@@ -289,7 +288,7 @@
                 justify-content: space-around;
                 background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0) 100%);
             }
-            .footer a { font-size: 0.9rem; }
+            .footer a { font-size: 1rem; } /* Mobilde çok büyük olmasın */
         }
 
         /* Landscape Optimization */
@@ -325,7 +324,7 @@
                 padding: 0.5rem 2rem;
                 padding-bottom: env(safe-area-inset-bottom, 5px);
             }
-            .footer a { font-size: 0.8rem; }
+            .footer a { font-size: 0.9rem; }
         }
     </style>
 </head>
