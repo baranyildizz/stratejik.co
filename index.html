@@ -19,7 +19,6 @@
         /* --- TEMEL AYARLAR --- */
         :root {
             --primary-text: #ffffff;
-            --bg-color: #000000;
             --cta-bg: rgba(255, 255, 255, 0.1);
             --cta-hover: rgba(255, 255, 255, 0.25);
             --safe-bottom: env(safe-area-inset-bottom, 20px);
@@ -31,20 +30,23 @@
             margin: 0; padding: 0;
             width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
-            background-color: #000; /* Video yüklenene kadar siyah */
+            /* DÜZELTME: Video arkada görünebilsin diye şeffaf yapıldı */
+            background-color: transparent; 
             color: var(--primary-text);
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* --- VIDEO ARKA PLAN --- */
         .video-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; background-color: #000;
+            z-index: -1; /* En arkaya at */
+            background-color: #000; /* Video yüklenene kadar siyah zemin */
         }
 
         .video-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.3); /* Karartma */
+            background-color: rgba(0, 0, 0, 0.3); /* Videonun üzerindeki hafif karartma */
             z-index: 1; pointer-events: none;
         }
 
@@ -64,8 +66,7 @@
         .header {
             position: fixed;
             top: 0; left: 0; width: 100%;
-            /* Masaüstü Hizalama: Soldan 6rem */
-            padding: 3rem 6rem; 
+            padding: 3rem 6rem; /* Masaüstü hiza */
             z-index: 100;
             display: flex;
             justify-content: space-between;
@@ -73,8 +74,8 @@
         }
 
         .logo {
-            width: 400px; /* Temiz sayı */
-            max-width: 80vw; /* Emniyet sibobu: Ekran küçükse taşmasın */
+            width: 400px; /* İstenen boyut */
+            max-width: 80vw;
             height: auto;
             filter: invert(100%);
             display: block;
@@ -87,8 +88,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            /* Header ile aynı hizada başlaması için 6rem */
-            padding-left: 6rem; 
+            padding-left: 6rem; /* Header ile aynı hiza */
             padding-right: 2rem;
             z-index: 10;
         }
@@ -135,7 +135,6 @@
             z-index: 102;
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.3);
-            /* Masaüstü için varsayılan: Flex akışında kalır */
         }
 
         .cta-button {
@@ -179,7 +178,6 @@
         @media (max-width: 768px) {
             body { overflow-y: auto; overflow-x: hidden; }
             
-            /* Header FIXED kalmalı, padding küçültüldü */
             .header { 
                 padding: 1.5rem; 
                 justify-content: center; 
@@ -187,11 +185,11 @@
             
             .logo { width: 290px; }
             
-            /* DÜZELTME: Dil butonu Mobilde Absolute ile sağa yaslanır */
+            /* Dil butonu sağ üstte, dikey ortalanmış */
             .lang-toggle {
                 position: absolute;
-                right: 1.5rem; /* Sağa yasla */
-                top: 50%;      /* Dikeyde ortala */
+                right: 1.5rem; 
+                top: 50%;      
                 transform: translateY(-50%);
                 padding: 0.4rem 0.8rem;
                 font-size: 0.8rem;
@@ -232,9 +230,11 @@
 
     <div class="video-container">
         <div class="video-overlay"></div>
+        
         <video id="bgVideoThumb" class="video-element" autoplay loop muted playsinline aria-hidden="true">
             <source src="videos/sea-thumbnail.mp4" type="video/mp4">
         </video>
+        
         <video id="bgVideo" class="video-element" loop muted playsinline preload="auto" aria-hidden="true">
             <source src="videos/sea.mp4" type="video/mp4">
         </video>
@@ -267,7 +267,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Dil Değişkenleri
+            // --- Dil Yönetimi ---
             const texts = {
                 tr: {
                     mainHeadline: "Mimarlıkta İnovasyon ile Katma Değerli Gayrimenkul Geliştiriyoruz.",
@@ -288,7 +288,7 @@
             const subHeadline = document.getElementById('subHeadline');
             const ctaBtn = document.getElementById('ctaBtn');
 
-            // Dil Değiştirme Fonksiyonu
+            // Dil Değiştirme
             langToggle.onclick = function() {
                 currentLang = currentLang === 'tr' ? 'en' : 'tr';
                 const elements = [mainHeadline, subHeadline, ctaBtn];
@@ -303,10 +303,9 @@
                 }, 200);
             };
 
-            // Geçiş Efektleri
             [mainHeadline, subHeadline, ctaBtn].forEach(el => el.style.transition = 'opacity 0.2s ease');
 
-            // Video Kontrolü
+            // --- Video Yönetimi ---
             const thumbVideo = document.getElementById('bgVideoThumb');
             const mainVideo = document.getElementById('bgVideo');
 
@@ -314,8 +313,12 @@
                 thumbVideo.play().catch(()=>{});
                 mainVideo.play().catch(()=>{});
             };
+            
+            // Kullanıcı etkileşimi ile başlat (mobil için önemli)
             document.body.addEventListener('click', startVideos, { once: true });
             document.body.addEventListener('touchstart', startVideos, { once: true });
+            
+            // Otomatik deneme
             thumbVideo.play().catch(()=>{});
             mainVideo.play().catch(()=>{});
 
@@ -326,6 +329,7 @@
                     setTimeout(() => thumbVideo.pause(), 1000); 
                 }, 500);
             }, { once: true });
+            
             mainVideo.addEventListener('error', () => {
                 thumbVideo.style.opacity = '1';
                 mainVideo.style.opacity = '0';
