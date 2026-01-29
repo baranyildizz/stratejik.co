@@ -5,30 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
 
-    <!-- SEO ve Sayfa Bilgileri -->
     <title>Stratejik | İnovatif Mimarlık ve Gayrimenkul Geliştirme</title>
     <meta name="description" content="Antalya merkezli mimarlık ve gayrimenkul geliştirme ofisi. Projelerinize inovasyon ve stratejik planlama ile değer katıyoruz.">
     <meta name="keywords" content="mimarlık, gayrimenkul geliştirme, antalya mimar, proje yönetimi, stratejik mimarlık, inovasyon">
     <meta name="author" content="Stratejik">
     <link rel="canonical" href="https://stratejik.co">
 
-    <!-- Favicon (Marka Kimliği) -->
     <link rel="icon" type="image/svg+xml" href="stratejik.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-    <!-- Google Fonts: Inter Eklendi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Open Graph / Facebook & WhatsApp Önizlemeleri -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stratejik.co/">
     <meta property="og:title" content="Stratejik | Mimarlıkta İnovasyon">
     <meta property="og:description" content="Mimari tasarım ve gayrimenkul geliştirmede stratejik çözümler.">
     <meta property="og:image" content="https://stratejik.co/social-share.jpg">
 
-    <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stratejik.co/">
     <meta property="twitter:title" content="Stratejik | Mimarlıkta İnovasyon">
@@ -116,7 +111,8 @@
         }
 
         .logo {
-            width: 220px;
+            /* MASAÜSTÜ: 220px -> 440px yapıldı */
+            width: 440px;
             height: auto;
             filter: invert(100%);
             display: block;
@@ -213,7 +209,7 @@
             z-index: 100;
             display: flex;
             justify-content: space-between;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
             pointer-events: none;
         }
         
@@ -241,7 +237,8 @@
 
         @media (max-width: 1024px) {
             .header { padding: 2rem; }
-            .logo { width: 180px; }
+            /* TABLET: 180px -> 360px yapıldı */
+            .logo { width: 360px; }
             .main-content { padding: 0 2rem; justify-content: center; text-align: center; }
             .text-container { max-width: 100%; align-items: center; }
             .cta-button { align-self: center; }
@@ -252,7 +249,8 @@
             body { overflow-y: auto; overflow-x: hidden; }
             
             .header { padding: 1.5rem; justify-content: center; }
-            .logo { width: 160px; position: relative; left: auto; transform: none; }
+            /* MOBİL: 160px -> 320px yapıldı */
+            .logo { width: 320px; position: relative; left: auto; transform: none; }
             
             .lang-toggle {
                 position: absolute;
@@ -286,7 +284,7 @@
                 padding: 1.5rem;
                 padding-bottom: calc(1rem + var(--safe-bottom));
                 justify-content: space-around;
-                background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0) 100%);
+                background: linear-gradient(to top, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0) 100%);
             }
             .footer a { font-size: 1rem; } /* Mobilde çok büyük olmasın */
         }
@@ -294,7 +292,8 @@
         /* Landscape Optimization */
         @media (max-height: 500px) and (orientation: landscape) {
             .header { padding: 1rem 2rem; }
-            .logo { width: 140px; }
+            /* LANDSCAPE: 140px -> 280px yapıldı */
+            .logo { width: 280px; }
             .lang-toggle { top: 1rem; right: 2rem; }
             
             .main-content {
@@ -331,7 +330,6 @@
 <body>
 
     <div class="video-container">
-        <!-- Overlay Katmanı: Yazı okunabilirliği için -->
         <div class="video-overlay"></div>
         
         <video id="bgVideoThumb" class="video-element" autoplay loop muted playsinline aria-hidden="true">
