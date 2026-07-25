@@ -1,140 +1,268 @@
-/* CSS Değişkenleri: Tasarımı tek bir yerden yönetmek için */
+/* =========================================
+   1. DEĞİŞKENLER & TEMEL AYARLAR
+   ========================================= */
 :root {
     --primary-text-color: #ffffff;
-    --background-color: #000000;
+    --background-color: #5BA3E6; 
     --cta-background-color: rgba(255, 255, 255, 0.1);
-    --cta-hover-background-color: rgba(255, 255, 255, 0.2);
-    --text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    --cta-hover-background-color: rgba(255, 255, 255, 0.25);
+    --text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    --safe-bottom: env(safe-area-inset-bottom, 20px);
 }
 
-/* Genel Sayfa Ayarları */
+*, *::before, *::after { 
+    box-sizing: border-box; 
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--background-color);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--primary-text-color);
+    background-color: var(--background-color);
+    
+    /* Masaüstü (Varsayılan) Arka Plan Ayarları */
+    background-image: url('website-background-desktop.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Arka Plan Video Konteyneri */
-.video-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* İçeriğin arkasında kalması için */
-    opacity: 0;
-    transition: opacity 1.5s ease-in;
-}
-
-.video-background.loaded {
-    opacity: 1;
-}
-
-#bgVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Videonun ekranı kaplamasını sağlar */
-}
-
-/* Üst Kısım (Logo) */
+/* =========================================
+   2. HEADER & LOGO
+   ========================================= */
 .header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 2rem;
-    box-sizing: border-box;
+    padding: 3rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
 }
 
 .logo {
-    width: 250px;
+    width: 240px;
+    max-width: 80vw;
+    height: auto;
     filter: invert(100%);
+    display: block;
 }
 
-/* Ana İçerik */
+/* =========================================
+   3. ANA İÇERİK (TYPOGRAPHY & LAYOUT)
+   ========================================= */
 .main-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh;
-    padding: 2rem;
-    box-sizing: border-box;
+    padding: 0 2rem 0 6rem;
+    z-index: 10;
 }
 
 .text-container {
-    max-width: 600px;
-    /* Metin okunabilirliğini artırmak için gölge */
+    max-width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
     text-shadow: var(--text-shadow);
 }
 
 .main-headline {
-    font-size: 3.5em;
-    margin-bottom: 0.2em;
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    font-weight: 700;
     line-height: 1.1;
+    margin: 0;
+    letter-spacing: -0.02em;
+    transition: opacity 0.2s ease;
 }
 
 .sub-headline {
-    font-size: 1.2em;
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    font-weight: 400;
     line-height: 1.6;
+    margin: 0;
     max-width: 90%;
+    opacity: 0.95;
+    transition: opacity 0.2s ease;
 }
 
-/* Eylem Çağrısı Butonu */
-.cta-button {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding: 0.8rem 1.8rem;
-    border: 1px solid var(--primary-text-color);
+/* =========================================
+   4. BUTONLAR
+   ========================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--primary-text-color);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 50px;
     background-color: var(--cta-background-color);
-    color: var(--primary-text-color);
-    text-decoration: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    backdrop-filter: blur(5px); /* Şık bir "cam" efekti */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
 }
 
-.cta-button:hover {
+.btn:hover, .btn:focus-visible {
     background-color: var(--cta-hover-background-color);
     transform: translateY(-2px);
 }
 
-/* Mobil Cihazlar için Media Query */
+.cta-button {
+    align-self: flex-start;
+    padding: 1.1rem 2.5rem;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease, opacity 0.2s ease;
+}
+
+.lang-toggle {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* =========================================
+   5. FOOTER
+   ========================================= */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+    z-index: 100;
+}
+
+.footer a {
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--primary-text-color);
+    padding-bottom: 3px;
+    transition: opacity 0.3s ease;
+}
+
+.footer a:hover, .footer a:focus-visible {
+    opacity: 0.7;
+}
+
+/* =========================================
+   6. RESPONSIVE TASARIM (TABLET & MOBİL)
+   ========================================= */
+
+/* Tablet & Küçük Masaüstü */
+@media (max-width: 1024px) {
+    .header, .footer { padding: 2rem; }
+    .main-content { padding: 0 2rem; }
+    .text-container { max-width: 100%; }
+}
+
+/* Mobil Görünüm (Dikey - Portrait) */
 @media (max-width: 768px) {
-    .header {
-        display: flex;
-        justify-content: center;
-        padding: 1.5rem;
+    body {
+        /* Art Direction: Mobil için özel dikey görsel ataması */
+        background-image: url('website-background-p1.jpg');
+        background-position: center bottom;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
     
-    .logo {
-        width: 180px;
+    .header {
+        padding: 1.5rem;
+        justify-content: center;
+    }
+    
+    .logo { width: 170px; }
+    
+    .lang-toggle {
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .main-content {
+        position: relative;
+        height: auto;
+        min-height: 100dvh;
+        /* Görseldeki gökyüzüne metni oturtmak için dinamik boşluklar */
+        padding: 120px 1.5rem 240px 1.5rem; 
         justify-content: center;
-        align-items: flex-end; /* İçeriği aşağıya yasla */
-        text-align: center;
-        padding: 1.5rem 1.5rem 5rem 1.5rem; /* Altta boşluk bırak */
     }
 
     .text-container {
-        background-color: rgba(0,0,0,0.4);
+        align-items: center;
+        text-align: center;
+        gap: 1.2rem;
+    }
+
+    .sub-headline { max-width: 100%; }
+    
+    .cta-button {
+        align-self: center;
+        width: 100%;
+        max-width: 320px;
+        padding: 1.2rem;
+        margin-top: 1rem;
+    }
+    
+    .footer {
         padding: 1.5rem;
-        border-radius: 12px;
-        backdrop-filter: blur(10px);
-        text-shadow: none; /* Arka plan varken gölgeye gerek yok */
+        padding-bottom: calc(1rem + var(--safe-bottom));
+        justify-content: space-around;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
     }
+    
+    .footer a { font-size: 1rem; }
+}
 
-    .main-headline {
-        font-size: 2em;
+/* Mobil Görünüm (Yatay - Landscape Ekran Döndürme Durumu) */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header { padding: 1rem 2rem; }
+    .logo { width: 150px; }
+    .lang-toggle { right: 2rem; }
+    
+    .main-content {
+        padding: 70px 2rem 60px 2rem;
+        min-height: 100dvh;
     }
-
-    .sub-headline {
-        font-size: 1em;
-        max-width: 100%;
+    
+    .text-container {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 2rem;
     }
+    
+    .sub-headline { display: none; /* Alandan tasarruf */ }
+    
+    .cta-button {
+        margin: 0;
+        padding: 0.8rem 1.5rem;
+        width: auto;
+    }
+    
+    .footer { padding: 1rem 2rem; }
 }
