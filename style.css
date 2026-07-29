@@ -52,23 +52,13 @@ body {
     z-index: 100;
 }
 
-.logo-link {
-    display: inline-block;
-    width: 240px; 
-    max-width: 80vw;
-    position: relative;
-    /* Logomuzun taşmasını engellemek için */
-    overflow: visible; 
-}
-
-/* SVG'yi 4 kat (400%) büyük çizdirip, transform ile 4'te 1'ine küçültüyoruz */
 .logo {
-    pointer-events: none;
-    width: 400%; /* Kapsayıcının 4 katı (yaklaşık 960px çözünürlük yaratır) */
+   pointer-events: none;
+    width: 240px;
+    max-width: 80vw;
     height: auto;
+ /*    filter: invert(0); */
     display: block;
-    transform-origin: top left; /* Küçülme sol üstten başlasın */
-    transform: scale(0.25); /* Görüntüyü tekrar kapsayıcı boyutuna (240px) düşür */
 }
 /* =========================================
    3. ANA İÇERİK (TYPOGRAPHY & LAYOUT)
