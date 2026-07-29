@@ -53,6 +53,7 @@ body {
 }
 
 .logo {
+   pointer-events: none;
     width: 240px;
     max-width: 80vw;
     height: auto;
