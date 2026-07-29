@@ -3,7 +3,7 @@
    ========================================= */
 :root {
     --primary-text-color: #ffffff;
-    --background-color:rgba(45, 90, 175, 1); 
+    --background-color:#5BA3E6; 
     --cta-background-color: rgba(255, 255, 255, 0.1);
     --cta-hover-background-color: rgba(255, 255, 255, 0.25);
     /* Gölge daha doğal ve yumuşak hale getirildi */
