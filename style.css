@@ -6,7 +6,8 @@
     --background-color: #5BA3E6; 
     --cta-background-color: rgba(255, 255, 255, 0.1);
     --cta-hover-background-color: rgba(255, 255, 255, 0.25);
-    --text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    /* Gölge daha doğal ve yumuşak hale getirildi */
+    --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     --safe-bottom: env(safe-area-inset-bottom, 20px);
 }
 
@@ -21,11 +22,13 @@ body {
     color: var(--primary-text-color);
     background-color: var(--background-color);
     
-    /* Masaüstü (Varsayılan) Arka Plan Ayarları */
-    background-image: url('website-background-desktop.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    /* Masaüstü (Varsayılan) Arka Plan Ayarları - Gradient Karartma Eklendi */
+    background-image: 
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 35%),
+        url('website-background-desktop.jpg');
+    background-size: 100% 100%, cover;
+    background-position: center top, center center;
+    background-repeat: no-repeat, no-repeat;
     background-attachment: fixed;
     
     overflow: hidden;
@@ -41,7 +44,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 3rem 6rem;
+    /* Çentik olan cihazlar için güvenli alan boşluğu */
+    padding: max(3rem, env(safe-area-inset-top)) 6rem 3rem 6rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -137,6 +141,10 @@ body {
     font-size: 0.9rem;
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.4);
+    /* iOS soluklaştırma sorununa karşı eklendi */
+    color: #ffffff !important; 
+    -webkit-text-fill-color: #ffffff;
+    opacity: 1;
 }
 
 /* =========================================
@@ -174,7 +182,10 @@ body {
 
 /* Tablet & Küçük Masaüstü */
 @media (max-width: 1024px) {
-    .header, .footer { padding: 2rem; }
+    .header { 
+        padding: max(2rem, env(safe-area-inset-top)) 2rem 2rem 2rem; 
+    }
+    .footer { padding: 2rem; }
     .main-content { padding: 0 2rem; }
     .text-container { max-width: 100%; }
 }
@@ -182,15 +193,20 @@ body {
 /* Mobil Görünüm (Dikey - Portrait) */
 @media (max-width: 768px) {
     body {
-        /* Art Direction: Mobil için özel dikey görsel ataması */
-        background-image: url('website-background-p1.jpg');
-        background-position: center bottom;
+        /* iOS fixed bug'ını çözmek ve gradient eklemek için güncellendi */
+        background-attachment: scroll; 
+        background-image: 
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 30%),
+            url('website-background-p1.jpg');
+        background-position: center top, center bottom;
+        background-size: 100% 100%, cover;
         overflow-y: auto;
         overflow-x: hidden;
     }
     
     .header {
-        padding: 1.5rem;
+        /* Çentik alanı için güvenli boşluk */
+        padding: max(1.5rem, env(safe-area-inset-top)) 1.5rem 1.5rem 1.5rem;
         justify-content: center;
     }
     
@@ -199,7 +215,8 @@ body {
     .lang-toggle {
         position: absolute;
         right: 1.5rem;
-        top: 50%;
+        /* Çentiğe göre buton hizalamasını güvenli alana kaydırmak için */
+        top: max(50%, calc(env(safe-area-inset-top) + 20px));
         transform: translateY(-50%);
     }
 
@@ -207,7 +224,6 @@ body {
         position: relative;
         height: auto;
         min-height: 100dvh;
-        /* Görseldeki gökyüzüne metni oturtmak için dinamik boşluklar */
         padding: 120px 1.5rem 240px 1.5rem; 
         justify-content: center;
     }
@@ -240,9 +256,9 @@ body {
 
 /* Mobil Görünüm (Yatay - Landscape Ekran Döndürme Durumu) */
 @media (max-height: 500px) and (orientation: landscape) {
-    .header { padding: 1rem 2rem; }
+    .header { padding: max(1rem, env(safe-area-inset-top)) 2rem 1rem 2rem; }
     .logo { width: 150px; }
-    .lang-toggle { right: 2rem; }
+    .lang-toggle { right: 2rem; top: 50%; }
     
     .main-content {
         padding: 70px 2rem 60px 2rem;
@@ -256,7 +272,7 @@ body {
         gap: 2rem;
     }
     
-    .sub-headline { display: none; /* Alandan tasarruf */ }
+    .sub-headline { display: none; }
     
     .cta-button {
         margin: 0;
