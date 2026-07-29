@@ -197,6 +197,7 @@ body {
         background-image: 
             linear-gradient(to bottom, rgba(45, 90, 175, 1) 0%, transparent 70%),
             url('website-background-p1.jpg');
+         background-color:rgba(45, 90, 175, 1); 
         background-position: center top, center bottom;
         background-size: 100% 100%, cover;
         overflow-y: auto;
