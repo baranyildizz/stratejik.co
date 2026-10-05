@@ -39,6 +39,17 @@
     :root { --vh: 1dvh; }
 }
 
+/* Samsung Internet koyu modu: <meta color-scheme> ayarını dikkate almaz;
+   stil dosyasında prefers-color-scheme sorgusu yoksa sayfayı zorla karartır.
+   Bu kural görünümü değiştirmez (aynı değerler), sadece Samsung'a sitenin
+   renklerine kendisinin karar verdiğini gösterir. Silmeyin. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: only light;
+        --primary-text-color: #ffffff;
+    }
+}
+
 html {
     /* Sayfa sınırında esneme / yenileme animasyonunu kapat */
     overscroll-behavior: none;
