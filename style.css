@@ -240,11 +240,15 @@ body {
         --u: min(calc(100vw / 414), calc(var(--vh) * 100 / 800));
     }
 
-    body {
-        /* Sayfayı ekrana sabitle: kaydırma ve sınırda esneme (bounce) olmasın */
-        position: fixed;
-        top: 0; right: 0; bottom: 0; left: 0;
+    /* Sayfa ekran boyunda; kaydırılacak içerik yok. Kenardaki esneme app.js ile
+       engellenir. Not: body'ye position: fixed VERMEYİN - iOS 26 Safari alttaki
+       araç çubuğunu kenardaki sabit öğenin rengine boyar (mavi çubuk sorunu). */
+    html, body {
+        height: 100%;
         overflow: hidden;
+    }
+
+    body {
         background-image: none;
         background-color: rgba(45, 90, 175, 1);
     }
