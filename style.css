@@ -2,6 +2,8 @@
    1. DEĞİŞKENLER & TEMEL AYARLAR
    ========================================= */
 :root {
+    /* Tarayıcıların otomatik koyu mod dönüşümünü engeller */
+    color-scheme: only light;
     --primary-text-color: #ffffff;
 
     --cta-background-color: rgba(255, 255, 255, 0.1);
