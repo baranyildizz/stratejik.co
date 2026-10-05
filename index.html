@@ -57,6 +57,18 @@
         <a href="https://maps.app.goo.gl/JWoJA8xjEqFPjVyT9" target="_blank" rel="noopener noreferrer">Antalya</a>
     </footer>
 
+    <!-- Kaydırma / esneme engelleme: sayfa tek ekrandır, sürükleme hareketi
+         iOS Safari'nin kenardaki esneme (bounce) animasyonunu tetiklemesin -->
+    <script>
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        // iOS'ta iki parmakla yakınlaştırmayı engelle (user-scalable=no görmezden geliniyor)
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+
     <!-- Dil Değişimi Scripti -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
