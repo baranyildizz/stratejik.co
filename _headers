@@ -1,0 +1,25 @@
+# Cloudflare yanıt başlıkları (https://developers.cloudflare.com/workers/static-assets/headers/)
+
+# Güvenlik başlıkları (tüm sayfalar)
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=31536000
+
+# Fontlar hiç değişmez: 1 yıl önbellek
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Görseller ve ikonlar: 1 hafta önbellek
+/favicon/*
+  Cache-Control: public, max-age=604800
+/website-background-p1.jpg
+  Cache-Control: public, max-age=604800
+/website-background-desktop.jpg
+  Cache-Control: public, max-age=604800
+/og-image.jpg
+  Cache-Control: public, max-age=604800
+/stratejik_logo_animation.svg
+  Cache-Control: public, max-age=604800

@@ -1,0 +1,18 @@
+# Cloudflare'e yüklenmeyecek (siteden erişilemeyecek) dosyalar.
+# Repoda kalırlar ama yayınlanmazlar.
+
+# Proje / yapılandırma dosyaları
+.git
+.github
+.claude
+README.md
+wrangler.jsonc
+
+# Şu an sitede kullanılmayan medya ve eski dosyalar
+imgs/
+videos/
+stratejik2.svg
+stratejik3.svg
+script.js
+favicon.png
+favicon/about.txt
